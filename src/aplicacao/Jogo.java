@@ -1,6 +1,14 @@
-package RPG;
+package aplicacao;
 
 import java.util.Random;
+
+import dominio.Personagem;
+import dominio.Guerreiro;
+import dominio.Mago;
+import dominio.Arqueiro;
+import dominio.Inimigo;
+import dominio.Item;
+import ui.Teclado;
 
 public class Jogo {
 

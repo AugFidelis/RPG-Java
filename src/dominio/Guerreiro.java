@@ -1,4 +1,4 @@
-package RPG;
+package dominio;
 
 public class Guerreiro extends Personagem{
     public Guerreiro(String nome) throws Exception{

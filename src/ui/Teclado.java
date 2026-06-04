@@ -1,6 +1,4 @@
-package RPG;//import java.io.BufferedReader;
-//import java.io.InputStreamReader;
-//import java.io.IOException;
+package ui;
 
 import java.io.*;
 

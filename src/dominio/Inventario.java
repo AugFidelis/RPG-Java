@@ -1,4 +1,4 @@
-package RPG;
+package dominio;
 
 import java.util.ArrayList;
 import java.util.Collections;
