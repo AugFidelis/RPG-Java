@@ -58,12 +58,12 @@ cd RPG-Java
 
 2. **Compile o projeto**:
 ```bash
-javac -d out src/*.java
+javac -d out src/dominio/*.java src/aplicacao/*.java src/ui/*.java
 ```
 
 3. **Execute o jogo**:
 ```bash
-java -cp out RPG.Main
+java -cp out ui.Main
 ```
 
 ### Controles do Jogo

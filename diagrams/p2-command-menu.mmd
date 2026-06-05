@@ -1,0 +1,38 @@
+classDiagram
+    class Jogo {
+        -Map~Integer, ComandoMenu~ comandosMenu
+        -criarComandosMenu() Map
+        -exibirMenuPrincipal() void
+        +explorar() void
+        +navegar() void
+        +abrirInventario() void
+    }
+
+    class ComandoMenu {
+        <<interface>>
+        +executar() void
+        +getDescricao() String
+    }
+
+    class ComandoExplorar {
+        -Jogo jogo
+        +executar() void
+    }
+
+    class ComandoMover {
+        -Jogo jogo
+        +executar() void
+    }
+
+    class ComandoInventario {
+        -Jogo jogo
+        +executar() void
+    }
+
+    Jogo --> ComandoMenu
+    ComandoMenu <|.. ComandoExplorar
+    ComandoMenu <|.. ComandoMover
+    ComandoMenu <|.. ComandoInventario
+    ComandoExplorar --> Jogo
+    ComandoMover --> Jogo
+    ComandoInventario --> Jogo
