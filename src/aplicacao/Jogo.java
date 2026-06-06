@@ -12,6 +12,7 @@ import dominio.Item;
 import dominio.Mago;
 import dominio.Personagem;
 import dominio.SemEfeito;
+import ui.EntradaUsuario;
 import ui.Teclado;
 
 public class Jogo {
@@ -21,12 +22,18 @@ public class Jogo {
     private String localizacaoAtual;
     private ServicoCombate servicoCombate;
     private ServicoInventario servicoInventario;
+    private EntradaUsuario entradaUsuario;
     private Map<Integer, ComandoMenu> comandosMenu;
 
     public Jogo() throws Exception {
+        this(new Teclado());
+    }
+
+    public Jogo(EntradaUsuario entradaUsuario) throws Exception {
         this.dado = new Random();
-        this.servicoInventario = new ServicoInventario();
-        this.servicoCombate = new ServicoCombate(this.dado, this.servicoInventario);
+        this.entradaUsuario = entradaUsuario;
+        this.servicoInventario = new ServicoInventario(entradaUsuario);
+        this.servicoCombate = new ServicoCombate(this.dado, this.servicoInventario, entradaUsuario);
         this.jogador = criarPersonagem();
         this.localizacaoAtual = "Sala de Aula - Bloco C";
         this.comandosMenu = criarComandosMenu();
@@ -76,7 +83,7 @@ public class Jogo {
 
     private int lerOpcaoMenu() {
         try {
-            return Teclado.getUmInt();
+            return this.entradaUsuario.lerInteiro();
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return 0;
@@ -90,10 +97,10 @@ public class Jogo {
         System.out.println("3. O Arquiteto (Curso: Arquitetura) - Atributos mais balanceados.");
         System.out.print("Escolha sua classe: ");
 
-        int classe = Teclado.getUmInt();
+        int classe = this.entradaUsuario.lerInteiro();
 
         System.out.print("Digite o nome do seu personagem: ");
-        String nome = Teclado.getUmString();
+        String nome = this.entradaUsuario.lerTexto();
 
         Personagem p;
 
@@ -134,7 +141,7 @@ public class Jogo {
                 case "Sala de Aula - Bloco C":
                     System.out.println("1. Patio Central");
                     System.out.println("2. Cantina");
-                    int escolhaC = Teclado.getUmInt();
+                    int escolhaC = this.entradaUsuario.lerInteiro();
                     if (escolhaC == 1) {
                         this.localizacaoAtual = "Patio Central";
                     } else if (escolhaC == 2) {
@@ -145,7 +152,7 @@ public class Jogo {
                     System.out.println("1. Bloco C");
                     System.out.println("2. Biblioteca");
                     System.out.println("3. Predio H (Laboratorios)");
-                    int escolhaP = Teclado.getUmInt();
+                    int escolhaP = this.entradaUsuario.lerInteiro();
                     if (escolhaP == 1) {
                         this.localizacaoAtual = "Sala de Aula - Bloco C";
                     } else if (escolhaP == 2) {
@@ -156,19 +163,19 @@ public class Jogo {
                     break;
                 case "Cantina":
                     System.out.println("1. Voltar para o Bloco C");
-                    if (Teclado.getUmInt() == 1) {
+                    if (this.entradaUsuario.lerInteiro() == 1) {
                         this.localizacaoAtual = "Sala de Aula - Bloco C";
                     }
                     break;
                 case "Biblioteca":
                     System.out.println("1. Voltar para o Patio Central");
-                    if (Teclado.getUmInt() == 1) {
+                    if (this.entradaUsuario.lerInteiro() == 1) {
                         this.localizacaoAtual = "Patio Central";
                     }
                     break;
                 case "Predio H":
                     System.out.println("1. Voltar para o Patio Central");
-                    if (Teclado.getUmInt() == 1) {
+                    if (this.entradaUsuario.lerInteiro() == 1) {
                         this.localizacaoAtual = "Patio Central";
                     }
                     break;
