@@ -4,15 +4,17 @@ import java.util.Random;
 
 import dominio.Inimigo;
 import dominio.Personagem;
-import ui.Teclado;
+import ui.EntradaUsuario;
 
 public class ServicoCombate {
     private Random dado;
     private ServicoInventario servicoInventario;
+    private EntradaUsuario entradaUsuario;
 
-    public ServicoCombate(Random dado, ServicoInventario servicoInventario) {
+    public ServicoCombate(Random dado, ServicoInventario servicoInventario, EntradaUsuario entradaUsuario) {
         this.dado = dado;
         this.servicoInventario = servicoInventario;
+        this.entradaUsuario = entradaUsuario;
     }
 
     public void iniciarBatalha(Personagem jogador, Inimigo inimigo) throws Exception {
@@ -62,7 +64,7 @@ public class ServicoCombate {
 
     private int lerEscolhaCombate() {
         try {
-            return Teclado.getUmInt();
+            return this.entradaUsuario.lerInteiro();
         } catch (Exception e) {
             System.err.println("Opcao invalida.");
             return 0;
@@ -109,3 +111,4 @@ public class ServicoCombate {
         }
     }
 }
+
