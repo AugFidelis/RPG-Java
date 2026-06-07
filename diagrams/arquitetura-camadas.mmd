@@ -1,0 +1,25 @@
+flowchart TD
+    Usuario["Usuario no terminal"]
+    Main["ui.Main"]
+    Teclado["ui.Teclado / EntradaUsuario"]
+    Jogo["aplicacao.Jogo"]
+    Comandos["ComandoMenu e comandos concretos"]
+    Combate["ServicoCombate"]
+    InventarioApp["ServicoInventario"]
+    Dominio["dominio: Personagem, Inimigo, Item, Inventario"]
+    Fabricas["FabricaPersonagem / FabricaInimigo"]
+    Efeitos["EfeitoItem: CuraHP, BuffAtaque, BuffDefesa, SemEfeito"]
+
+    Usuario --> Main
+    Main --> Jogo
+    Jogo --> Teclado
+    Jogo --> Comandos
+    Comandos --> Jogo
+    Jogo --> Combate
+    Jogo --> InventarioApp
+    Jogo --> Fabricas
+    Combate --> InventarioApp
+    Combate --> Dominio
+    InventarioApp --> Dominio
+    Dominio --> Efeitos
+    Fabricas --> Dominio

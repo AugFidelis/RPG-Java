@@ -2,12 +2,8 @@ package dominio;
 
 public class FabricaPersonagem {
 
-    public static Personagem criarPersonagem(
-            int classe,
-            String nome) throws Exception {
-
+    public static Personagem criarPersonagem(int classe, String nome) throws Exception {
         switch (classe) {
-
             case 1:
                 System.out.println("Você é 'O Atleta'! Foco em resistir ao combate.");
                 return new Guerreiro(nome);

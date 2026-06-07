@@ -1,0 +1,29 @@
+classDiagram
+    class EntradaUsuario {
+        <<interface>>
+        +lerInteiro() int
+        +lerTexto() String
+    }
+
+    class Teclado {
+        -BufferedReader leitor
+        +lerInteiro() int
+        +lerTexto() String
+    }
+
+    class Jogo {
+        -EntradaUsuario entradaUsuario
+    }
+
+    class ServicoCombate {
+        -EntradaUsuario entradaUsuario
+    }
+
+    class ServicoInventario {
+        -EntradaUsuario entradaUsuario
+    }
+
+    EntradaUsuario <|.. Teclado
+    Jogo --> EntradaUsuario
+    ServicoCombate --> EntradaUsuario
+    ServicoInventario --> EntradaUsuario

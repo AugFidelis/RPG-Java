@@ -14,6 +14,6 @@ public class ComandoInventario implements ComandoMenu {
 
     @Override
     public String getDescricao() {
-        return "Ver Inventario / Usar Item";
+        return "Ver Inventário / Usar Item";
     }
 }

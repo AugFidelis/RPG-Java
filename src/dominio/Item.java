@@ -24,7 +24,7 @@ public class Item implements Comparable<Item>, Cloneable {
 
     public Item(Item other) {
         if (other == null) {
-            throw new IllegalArgumentException("Item de copia nao pode ser nulo.");
+            throw new IllegalArgumentException("Item de cópia não pode ser nulo.");
         }
         this.nome = other.nome;
         this.descricao = other.descricao;
@@ -50,7 +50,7 @@ public class Item implements Comparable<Item>, Cloneable {
 
     public void setNome(String nome) {
         if (nome == null || nome.trim().isEmpty()) {
-            throw new IllegalArgumentException("Nome do item nao pode ser vazio.");
+            throw new IllegalArgumentException("Nome do item não pode ser vazio.");
         }
         this.nome = nome.trim();
     }
@@ -65,7 +65,7 @@ public class Item implements Comparable<Item>, Cloneable {
 
     public void setQuantidade(int quantidade) {
         if (quantidade < 0) {
-            throw new IllegalArgumentException("Quantidade nao pode ser negativa.");
+            throw new IllegalArgumentException("Quantidade não pode ser negativa.");
         }
         this.quantidade = quantidade;
     }

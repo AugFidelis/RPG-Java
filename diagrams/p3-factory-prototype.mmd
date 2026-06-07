@@ -1,0 +1,52 @@
+classDiagram
+    class Jogo {
+        -Personagem jogador
+        -String localizacaoAtual
+        -criarPersonagem() Personagem
+        +explorar() void
+    }
+
+    class FabricaPersonagem {
+        +criarPersonagem(int classe, String nome) Personagem
+    }
+
+    class FabricaInimigo {
+        +criarInimigo(String localizacao) Inimigo
+    }
+
+    class Personagem {
+        <<abstract>>
+        -String nome
+        -int pontosVida
+        -Inventario inventario
+        #Personagem(Personagem other)
+    }
+
+    class Guerreiro
+    class Mago
+    class Arqueiro
+    class Inimigo {
+        +Inimigo(Inimigo other)
+    }
+
+    class Inventario {
+        +clone() Inventario
+    }
+
+    class Item {
+        +clone() Item
+    }
+
+    Jogo --> FabricaPersonagem
+    Jogo --> FabricaInimigo
+    FabricaPersonagem --> Personagem
+    FabricaInimigo --> Inimigo
+    Personagem <|-- Guerreiro
+    Personagem <|-- Mago
+    Personagem <|-- Arqueiro
+    Personagem <|-- Inimigo
+    Personagem *-- Inventario
+    Inventario *-- Item
+    Inventario ..> Inventario : clone()
+    Item ..> Item : clone()
+    Inimigo ..> Inimigo : construtor de copia

@@ -16,7 +16,7 @@ public class CuraHP implements EfeitoItem {
         int vidaMaxima = alvo.getVidaMaxima();
 
         if (vidaAtual >= vidaMaxima) {
-            System.out.println(alvo.getNome() + " ja esta com a vida cheia!");
+            System.out.println(alvo.getNome() + " já está com a vida cheia!");
             return false;
         }
 

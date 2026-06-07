@@ -1,0 +1,23 @@
+sequenceDiagram
+    actor Jogador
+    participant Jogo
+    participant ServicoCombate
+    participant ServicoInventario
+    participant Inventario
+    participant Item
+    participant EfeitoItem
+    participant Personagem
+
+    Jogador->>Jogo: Explorar local
+    Jogo->>ServicoCombate: iniciarBatalha(jogador, inimigo)
+    ServicoCombate->>Jogador: Exibe opcoes do turno
+    Jogador->>ServicoCombate: Escolhe usar item
+    ServicoCombate->>ServicoInventario: abrirInventario(jogador)
+    ServicoInventario->>Inventario: usarItem(nomeItem, jogador)
+    Inventario->>Item: usar(jogador)
+    Item->>EfeitoItem: aplicar(jogador)
+    EfeitoItem->>Personagem: altera HP, ataque ou defesa
+    EfeitoItem-->>Item: resultado do efeito
+    Item-->>Inventario: item usado ou recusado
+    Inventario-->>ServicoInventario: resultado do uso
+    ServicoInventario-->>ServicoCombate: volta ao turno

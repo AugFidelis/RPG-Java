@@ -1,67 +1,73 @@
-# 🎮 RPG-Java: Invasão Alienígena na Universidade
+# RPG-Java: Invasão Alienígena na Universidade
 
-Um jogo de RPG em modo texto desenvolvido em Java, onde você deve sobreviver a uma invasão alienígena campus universitário da PUC-Campinas. Escolha sua classe, explore diferentes locais, enfrente inimigos e gerencie seu inventário para sobreviver!
+Um jogo de RPG em modo texto desenvolvido em Java, onde você deve sobreviver a uma invasão alienígena no campus universitário da PUC-Campinas. Escolha sua classe, explore diferentes locais, enfrente inimigos e gerencie seu inventário para sobreviver.
 
-## 📋 Sobre o Projeto
+## Sobre o Projeto
 
 Durante uma tarde comum de aulas, uma nave alienígena cai no campus universitário. Você e outros estudantes ficam presos e devem lutar pela sobrevivência. Explore diferentes áreas do campus, enfrente inimigos alienígenas e use itens estrategicamente para se manter vivo.
 
-## ✨ Características
+## Características
 
-- **Sistema de Classes**: Escolha entre três classes diferentes, cada uma com atributos únicos
-- **Sistema de Combate**: Batalhas baseadas em turnos com rolagem de dados
-- **Sistema de Inventário**: Colete e use itens durante sua jornada
-- **Exploração**: Navegue por diferentes locais do campus universitário
-- **Eventos Aleatórios**: Encontros com inimigos e itens são determinados por chance
-- **Gestão de Recursos**: Gerencie seus pontos de vida e itens cuidadosamente
+- **Sistema de Classes**: escolha entre três classes diferentes, cada uma com atributos próprios.
+- **Sistema de Combate**: batalhas baseadas em turnos com rolagem de dados.
+- **Sistema de Inventário**: colete e use itens durante sua jornada.
+- **Exploração**: navegue por diferentes locais do campus universitário.
+- **Eventos Aleatórios**: encontros com inimigos e itens são determinados por chance.
+- **Gestão de Recursos**: gerencie seus pontos de vida e itens cuidadosamente.
 
-## 🎯 Classes de Personagens
+## Classes de Personagens
 
 ### 1. O Atleta (Guerreiro)
+
 - **Curso**: Educação Física
 - **HP Inicial**: 120
 - **Ataque**: 8
 - **Defesa**: 15
-- **Especialidade**: Alta resistência e defesa, ideal para jogadores que preferem tanques
+- **Especialidade**: alta resistência e defesa, ideal para jogadores que preferem tanques.
 
 ### 2. O Programador (Mago)
+
 - **Curso**: Engenharia de Software
 - **HP Inicial**: 70
 - **Ataque**: 16
 - **Defesa**: 8
-- **Especialidade**: Alto poder de ataque, mas frágil - jogue com estratégia
+- **Especialidade**: alto poder de ataque, mas frágil; jogue com estratégia.
 
 ### 3. O Arquiteto (Arqueiro)
+
 - **Curso**: Arquitetura
 - **HP Inicial**: 90
 - **Ataque**: 12
 - **Defesa**: 10
-- **Especialidade**: Atributos balanceados, ideal para iniciantes
+- **Especialidade**: atributos balanceados, ideal para iniciantes.
 
-## 🗺️ Locais Exploráveis
+## Locais Exploráveis
 
-- **Sala de Aula - Bloco C**: Local inicial do jogo
-- **Pátio Central**: Área de grande circulação, cuidado com patrulhas!
-- **Cantina**: Bom lugar para encontrar comida e itens de cura
-- **Biblioteca**: Local mais perigoso com inimigos mais fortes
-- **Prédio H (Laboratórios)**: Área de risco com possibilidade de encontrar componentes eletrônicos
+- **Sala de Aula - Bloco C**: local inicial do jogo.
+- **Pátio Central**: área de grande circulação; cuidado com patrulhas.
+- **Cantina**: bom lugar para encontrar comida e itens de cura.
+- **Biblioteca**: local mais perigoso, com inimigos mais fortes.
+- **Prédio H (Laboratórios)**: área de risco com possibilidade de encontrar componentes eletrônicos.
 
-## 🎮 Como Jogar
+## Como Jogar
 
 ### Compilação e Execução
 
-1. **Clone o repositório**:
+1. Clone o repositório:
+
 ```bash
 git clone https://github.com/AugFidelis/RPG-Java.git
 cd RPG-Java
 ```
 
-2. **Compile o projeto**:
+2. Compile o projeto:
+
 ```bash
 javac -d out src/dominio/*.java src/aplicacao/*.java src/ui/*.java
 ```
 
-3. **Execute o jogo**:
+3. Execute o jogo:
+
 ```bash
 java -cp out ui.Main
 ```
@@ -70,26 +76,28 @@ java -cp out ui.Main
 
 Durante o jogo, você terá várias opções:
 
-1. **Menu Principal**:
-   - `1` - Explorar o local atual
-   - `2` - Mover-se para outro local
-   - `3` - Ver/Usar itens do inventário
+Menu principal:
 
-2. **Durante o Combate**:
-   - `1` - Atacar o inimigo
-   - `2` - Usar item do inventário
-   - `3` - Tentar fugir (50% de chance)
+- `1` - Explorar o local atual.
+- `2` - Mover-se para outro local.
+- `3` - Ver/usar itens do inventário.
+
+Durante o combate:
+
+- `1` - Atacar o inimigo.
+- `2` - Usar item do inventário.
+- `3` - Tentar fugir.
 
 ### Mecânicas de Jogo
 
-- **Combate**: O sistema usa rolagem de dados (1d6) para determinar o sucesso dos ataques
-- **Dano**: Calculado como `(Ataque + Dado) - Defesa do Oponente`
-- **Exploração**: Cada exploração tem chance de encontrar itens ou inimigos
-- **Cura**: Use salgados e outros itens para recuperar HP (não pode exceder HP máximo)
+- **Combate**: o sistema usa rolagem de dados (1d6) para determinar o sucesso dos ataques.
+- **Dano**: calculado como `(Ataque + Dado) - Defesa do Oponente`.
+- **Exploração**: cada exploração tem chance de encontrar itens ou inimigos.
+- **Cura**: use salgados e outros itens para recuperar HP, sem exceder o HP máximo.
 
-## 📁 Estrutura do Projeto
+## Estrutura do Projeto
 
-```
+```text
 RPG-Java/
 ├── adrs/                   # Registros de decisões arquiteturais
 ├── diagrams/               # Diagramas Mermaid versionados
@@ -103,7 +111,7 @@ RPG-Java/
 └── README.md
 ```
 
-### Organização arquitetural
+### Organização Arquitetural
 
 O projeto está organizado como um monólito modular com separação por camadas/pacotes:
 
@@ -112,22 +120,23 @@ O projeto está organizado como um monólito modular com separação por camadas
 - `ui`: contém a entrada do usuário via terminal e a classe `Main`.
 - `infra`: reservado para futuras integrações externas ou persistência.
 
-## 🛠️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
-- **Java**: Linguagem de programação principal
-- **IntelliJ IDEA**: IDE de desenvolvimento
-- **Git**: Controle de versão
+- **Java**: linguagem de programação principal.
+- **IntelliJ IDEA**: IDE de desenvolvimento.
+- **Git**: controle de versão.
 
-## 🎓 Contexto Acadêmico
+## Contexto Acadêmico
 
 Este projeto foi desenvolvido como parte de um trabalho acadêmico, demonstrando conceitos de:
-- Programação Orientada a Objetos (POO)
-- Herança e Polimorfismo
-- Encapsulamento
-- Tratamento de exceções
-- Estruturas de dados (ArrayList)
-- Interfaces (Comparable, Cloneable)
 
-## 📝 Licença
+- Programação orientada a objetos (POO).
+- Herança e polimorfismo.
+- Encapsulamento.
+- Tratamento de exceções.
+- Estruturas de dados (`ArrayList`).
+- Interfaces e padrões de projeto.
+
+## Licença
 
 Este projeto é de código aberto e está disponível para fins educacionais.

@@ -38,7 +38,7 @@ public class ServicoCombate {
                     jogadorFugiu = tentarFugir(jogador, inimigo);
                     break;
                 default:
-                    System.out.println("Opcao invalida. Tente novamente.");
+                    System.out.println("Opção inválida. Tente novamente.");
                     break;
             }
 
@@ -55,9 +55,9 @@ public class ServicoCombate {
         System.out.printf("Sua Vida (HP): %d\n", jogador.getPontosVida());
         System.out.printf("Vida Inimigo (HP): %d\n", inimigo.getPontosVida());
 
-        System.out.println("O que voce deseja fazer?");
+        System.out.println("O que você deseja fazer?");
         System.out.println("1. Atacar");
-        System.out.println("2. Usar Item (Inventario)");
+        System.out.println("2. Usar Item (Inventário)");
         System.out.println("3. Tentar Fugir");
         System.out.print("Escolha: ");
     }
@@ -66,17 +66,17 @@ public class ServicoCombate {
         try {
             return this.entradaUsuario.lerInteiro();
         } catch (Exception e) {
-            System.err.println("Opcao invalida.");
+            System.err.println("Opção inválida.");
             return 0;
         }
     }
 
     private boolean tentarFugir(Personagem jogador, Inimigo inimigo) throws Exception {
-        System.out.println("Voce tenta fugir...");
+        System.out.println("Você tenta fugir...");
         int chanceFuga = this.dado.nextInt(10) + 1;
 
         if (chanceFuga > 5) {
-            System.out.println("Voce conseguiu fugir da batalha!");
+            System.out.println("Você conseguiu fugir da batalha!");
             return true;
         }
 
@@ -97,17 +97,17 @@ public class ServicoCombate {
             jogador.setPontosVida(jogador.getPontosVida() - danoJogador);
             System.out.println("O inimigo te acertou e causou " + danoJogador + " de dano!");
         } else {
-            System.out.println("O inimigo ataca, mas voce se defende!");
+            System.out.println("O inimigo ataca, mas você se defende!");
         }
     }
 
     private void exibirResultadoCombate(Personagem jogador, Inimigo inimigo, boolean jogadorFugiu) {
         if (jogadorFugiu) {
-            System.out.println("Voce fugiu com sucesso!");
+            System.out.println("Você fugiu com sucesso!");
         } else if (jogador.getPontosVida() > 0) {
-            System.out.println("Voce derrotou o " + inimigo.getNome() + "!");
+            System.out.println("Você derrotou o " + inimigo.getNome() + "!");
         } else {
-            System.out.println("Voce foi abatido...");
+            System.out.println("Você foi abatido...");
         }
     }
 }

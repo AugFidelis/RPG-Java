@@ -24,7 +24,7 @@ public class ServicoInventario {
         if (sucesso) {
             System.out.println(jogador.getNome() + " usou " + nomeItem + ".");
         } else {
-            System.out.println("Nao foi possivel usar " + nomeItem + ".");
+            System.out.println("Não foi possível usar " + nomeItem + ".");
         }
 
         return sucesso;

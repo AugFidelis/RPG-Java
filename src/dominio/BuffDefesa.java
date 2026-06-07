@@ -5,7 +5,7 @@ public class BuffDefesa implements EfeitoItem {
 
     public BuffDefesa(int bonusDefesa) {
         if (bonusDefesa <= 0) {
-            throw new IllegalArgumentException("Bonus de defesa deve ser positivo.");
+            throw new IllegalArgumentException("Bônus de defesa deve ser positivo.");
         }
         this.bonusDefesa = bonusDefesa;
     }
