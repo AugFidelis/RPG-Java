@@ -3,12 +3,16 @@ package aplicacao;
 import java.util.Random;
 
 import dominio.Personagem;
-import dominio.Guerreiro;
-import dominio.Mago;
-import dominio.Arqueiro;
+// import dominio.Guerreiro;
+// import dominio.Mago;
+// import dominio.Arqueiro;
+import dominio.FabricaPersonagem;
 import dominio.Inimigo;
 import dominio.Item;
 import ui.Teclado;
+
+import dominio.FabricaPersonagem;
+import dominio.FabricaInimigo;
 
 public class Jogo {
 
@@ -78,29 +82,10 @@ public class Jogo {
         System.out.print("Digite o nome do seu personagem: ");
         String nome = Teclado.getUmString();
 
-        Personagem p;
-
-        switch (classe) {
-            case 1:
-                System.out.println("Você é 'O Atleta'! Foco em resistir ao combate.");
-                p = new Guerreiro(nome);
-                break;
-
-            case 2:
-                System.out.println("Você é 'O Programador'! Usando lógica para atacar.");
-                p = new Mago(nome);
-                break;
-
-            case 3:
-                System.out.println("Você é 'O Arquiteto'! Precisão é sua arma.");
-                p = new Arqueiro(nome);
-                break;
-
-            default:
-                System.out.println("Opção inválida. Escolhendo 'O Atleta' por padrão.");
-                p = new Guerreiro(nome);
-                break;
-        }
+        Personagem p =
+        FabricaPersonagem.criarPersonagem(
+                classe,
+                nome);
 
         //Isso é só de exemplo, esse trecho de dar o salgado deveria ser removido e
         //Um item(s) específico(s) deveria ser dado automaticamente DENTRO da subclasse
@@ -167,12 +152,16 @@ public class Jogo {
         } else if (this.localizacaoAtual.equals("Pátio Central") && chance < 70) {
             System.out.println("Uma patrulha te avista!");
 
-            Inimigo inimigo = Inimigo.gerarInimigo(this.localizacaoAtual);
+            Inimigo inimigo =
+                FabricaInimigo.criarInimigo(
+                    this.localizacaoAtual);
             iniciarBatalha(inimigo);
 
         } else if (chance < 30) {
             System.out.println("Um alarme soa! Um inimigo aparece!");
-            Inimigo inimigo = Inimigo.gerarInimigo(this.localizacaoAtual);
+            Inimigo inimigo =
+                FabricaInimigo.criarInimigo(
+                    this.localizacaoAtual);
             iniciarBatalha(inimigo);
         } else {
             System.out.println("Nada de interessante por aqui.");
