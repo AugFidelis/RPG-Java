@@ -4,9 +4,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
 
-import dominio.Arqueiro;
-import dominio.CuraHP;
-import dominio.Guerreiro;
+import dominio.Personagem;
+// import dominio.Guerreiro;
+// import dominio.Mago;
+// import dominio.Arqueiro;
+import dominio.FabricaPersonagem;
 import dominio.Inimigo;
 import dominio.Item;
 import dominio.Mago;
@@ -14,6 +16,9 @@ import dominio.Personagem;
 import dominio.SemEfeito;
 import ui.EntradaUsuario;
 import ui.Teclado;
+
+import dominio.FabricaPersonagem;
+import dominio.FabricaInimigo;
 
 public class Jogo {
 
@@ -102,29 +107,10 @@ public class Jogo {
         System.out.print("Digite o nome do seu personagem: ");
         String nome = this.entradaUsuario.lerTexto();
 
-        Personagem p;
-
-        switch (classe) {
-            case 1:
-                System.out.println("Voce e 'O Atleta'! Foco em resistir ao combate.");
-                p = new Guerreiro(nome);
-                break;
-
-            case 2:
-                System.out.println("Voce e 'O Programador'! Usando logica para atacar.");
-                p = new Mago(nome);
-                break;
-
-            case 3:
-                System.out.println("Voce e 'O Arquiteto'! Precisao e sua arma.");
-                p = new Arqueiro(nome);
-                break;
-
-            default:
-                System.out.println("Opcao invalida. Escolhendo 'O Atleta' por padrao.");
-                p = new Guerreiro(nome);
-                break;
-        }
+        Personagem p =
+        FabricaPersonagem.criarPersonagem(
+                classe,
+                nome);
 
         Item salgado = new Item("Salgado", "Cura 20 HP", new CuraHP(20), 2);
         p.getInventario().adicionarItem(salgado);
@@ -200,12 +186,18 @@ public class Jogo {
             this.jogador.getInventario().adicionarItem(new Item("Componentes", "Para gadgets", new SemEfeito(), 2));
         } else if (this.localizacaoAtual.equals("Patio Central") && chance < 70) {
             System.out.println("Uma patrulha te avista!");
-            Inimigo inimigo = Inimigo.gerarInimigo(this.localizacaoAtual);
-            this.servicoCombate.iniciarBatalha(this.jogador, inimigo);
+
+            Inimigo inimigo =
+                FabricaInimigo.criarInimigo(
+                    this.localizacaoAtual);
+            iniciarBatalha(inimigo);
+
         } else if (chance < 30) {
             System.out.println("Um alarme soa! Um inimigo aparece!");
-            Inimigo inimigo = Inimigo.gerarInimigo(this.localizacaoAtual);
-            this.servicoCombate.iniciarBatalha(this.jogador, inimigo);
+            Inimigo inimigo =
+                FabricaInimigo.criarInimigo(
+                    this.localizacaoAtual);
+            iniciarBatalha(inimigo);
         } else {
             System.out.println("Nada de interessante por aqui.");
         }
