@@ -103,6 +103,15 @@ RPG-Java/
 └── README.md
 ```
 
+### Organização arquitetural
+
+O projeto está organizado como um monólito modular com separação por camadas/pacotes:
+
+- `dominio`: concentra as regras principais do jogo, como personagens, inimigos, itens e inventário.
+- `aplicacao`: coordena os fluxos de uso, como menu principal, combate e inventário.
+- `ui`: contém a entrada do usuário via terminal e a classe `Main`.
+- `infra`: reservado para futuras integrações externas ou persistência.
+
 ## 🛠️ Tecnologias Utilizadas
 
 - **Java**: Linguagem de programação principal
