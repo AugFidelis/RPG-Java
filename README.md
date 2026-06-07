@@ -91,19 +91,16 @@ Durante o jogo, você terá várias opções:
 
 ```
 RPG-Java/
+├── adrs/                   # Registros de decisões arquiteturais
+├── diagrams/               # Diagramas Mermaid versionados
+├── docs/                   # Evidências e textos auxiliares da documentação
 ├── src/
-│   ├── Main.java           # Ponto de entrada do jogo
-│   ├── Jogo.java           # Lógica principal do jogo
-│   ├── Personagem.java     # Classe abstrata base para personagens
-│   ├── Guerreiro.java      # Classe Guerreiro (Atleta)
-│   ├── Mago.java           # Classe Mago (Programador)
-│   ├── Arqueiro.java       # Classe Arqueiro (Arquiteto)
-│   ├── Inimigo.java        # Classe de inimigos
-│   ├── Item.java           # Classe de itens
-│   ├── Inventario.java     # Sistema de inventário
-│   └── Teclado.java        # Utilitário para entrada de dados
-├── out/                    # Arquivos compilados
-└── README.md              # Este arquivo
+│   ├── aplicacao/          # Casos de uso, serviços e comandos do jogo
+│   ├── dominio/            # Entidades e regras centrais do RPG
+│   ├── infra/              # Reservado para detalhes de infraestrutura
+│   └── ui/                 # Entrada via terminal e ponto de entrada
+├── out/                    # Arquivos compilados, ignorados pelo Git
+└── README.md
 ```
 
 ## 🛠️ Tecnologias Utilizadas
