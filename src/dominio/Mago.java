@@ -8,7 +8,7 @@ public class Mago extends Personagem{
         this.getInventario().adicionarItem(salgado);
     }
 
-    //Ainda falta definir o nome final e suas características próprias|
+    
     public Mago(Mago other) { super(other); }
 
 }

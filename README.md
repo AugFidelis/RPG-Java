@@ -91,20 +91,26 @@ Durante o jogo, você terá várias opções:
 
 ```
 RPG-Java/
+├── adrs/                   # Registros de decisões arquiteturais
+├── diagrams/               # Diagramas Mermaid versionados
+├── docs/                   # Evidências e textos auxiliares da documentação
 ├── src/
-│   ├── Main.java           # Ponto de entrada do jogo
-│   ├── Jogo.java           # Lógica principal do jogo
-│   ├── Personagem.java     # Classe abstrata base para personagens
-│   ├── Guerreiro.java      # Classe Guerreiro (Atleta)
-│   ├── Mago.java           # Classe Mago (Programador)
-│   ├── Arqueiro.java       # Classe Arqueiro (Arquiteto)
-│   ├── Inimigo.java        # Classe de inimigos
-│   ├── Item.java           # Classe de itens
-│   ├── Inventario.java     # Sistema de inventário
-│   └── Teclado.java        # Utilitário para entrada de dados
-├── out/                    # Arquivos compilados
-└── README.md              # Este arquivo
+│   ├── aplicacao/          # Casos de uso, serviços e comandos do jogo
+│   ├── dominio/            # Entidades e regras centrais do RPG
+│   ├── infra/              # Reservado para detalhes de infraestrutura
+│   └── ui/                 # Entrada via terminal e ponto de entrada
+├── out/                    # Arquivos compilados, ignorados pelo Git
+└── README.md
 ```
+
+### Organização arquitetural
+
+O projeto está organizado como um monólito modular com separação por camadas/pacotes:
+
+- `dominio`: concentra as regras principais do jogo, como personagens, inimigos, itens e inventário.
+- `aplicacao`: coordena os fluxos de uso, como menu principal, combate e inventário.
+- `ui`: contém a entrada do usuário via terminal e a classe `Main`.
+- `infra`: reservado para futuras integrações externas ou persistência.
 
 ## 🛠️ Tecnologias Utilizadas
 

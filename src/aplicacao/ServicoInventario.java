@@ -1,14 +1,20 @@
 package aplicacao;
 
 import dominio.Personagem;
-import ui.Teclado;
+import ui.EntradaUsuario;
 
 public class ServicoInventario {
+    private EntradaUsuario entradaUsuario;
+
+    public ServicoInventario(EntradaUsuario entradaUsuario) {
+        this.entradaUsuario = entradaUsuario;
+    }
+
     public boolean abrirInventario(Personagem jogador) throws Exception {
         System.out.println(jogador.getInventario().toString());
         System.out.print("Digite o nome do item que deseja usar (ou 'voltar'): ");
 
-        String nomeItem = Teclado.getUmString();
+        String nomeItem = this.entradaUsuario.lerTexto();
         if (nomeItem == null || nomeItem.equalsIgnoreCase("voltar")) {
             return false;
         }
@@ -24,3 +30,4 @@ public class ServicoInventario {
         return sucesso;
     }
 }
+
