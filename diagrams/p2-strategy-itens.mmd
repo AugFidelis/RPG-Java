@@ -1,0 +1,39 @@
+classDiagram
+    class Item {
+        -String nome
+        -String descricao
+        -EfeitoItem efeito
+        -int quantidade
+        +usar(Personagem alvo) boolean
+    }
+
+    class EfeitoItem {
+        <<interface>>
+        +aplicar(Personagem alvo) boolean
+        +getDescricao() String
+    }
+
+    class CuraHP {
+        -int quantidadeCura
+        +aplicar(Personagem alvo) boolean
+    }
+
+    class BuffAtaque {
+        -int bonusAtaque
+        +aplicar(Personagem alvo) boolean
+    }
+
+    class BuffDefesa {
+        -int bonusDefesa
+        +aplicar(Personagem alvo) boolean
+    }
+
+    class SemEfeito {
+        +aplicar(Personagem alvo) boolean
+    }
+
+    Item --> EfeitoItem
+    EfeitoItem <|.. CuraHP
+    EfeitoItem <|.. BuffAtaque
+    EfeitoItem <|.. BuffDefesa
+    EfeitoItem <|.. SemEfeito

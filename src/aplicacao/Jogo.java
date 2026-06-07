@@ -1,13 +1,17 @@
 package aplicacao;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Random;
 
-import dominio.Personagem;
-import dominio.Guerreiro;
-import dominio.Mago;
 import dominio.Arqueiro;
+import dominio.CuraHP;
+import dominio.Guerreiro;
 import dominio.Inimigo;
 import dominio.Item;
+import dominio.Mago;
+import dominio.Personagem;
+import dominio.SemEfeito;
 import ui.Teclado;
 
 public class Jogo {
@@ -15,60 +19,73 @@ public class Jogo {
     private Personagem jogador;
     private Random dado;
     private String localizacaoAtual;
+    private ServicoCombate servicoCombate;
+    private ServicoInventario servicoInventario;
+    private Map<Integer, ComandoMenu> comandosMenu;
 
     public Jogo() throws Exception {
         this.dado = new Random();
+        this.servicoInventario = new ServicoInventario();
+        this.servicoCombate = new ServicoCombate(this.dado, this.servicoInventario);
         this.jogador = criarPersonagem();
         this.localizacaoAtual = "Sala de Aula - Bloco C";
+        this.comandosMenu = criarComandosMenu();
     }
 
     public void iniciarJogo() throws Exception {
-        System.out.println("Durante uma tarde comum de aulas, uma nave alienígena cai...");
-        System.out.println("Você se vê preso em uma " + this.localizacaoAtual + ".");
+        System.out.println("Durante uma tarde comum de aulas, uma nave alienigena cai...");
+        System.out.println("Voce se ve preso em uma " + this.localizacaoAtual + ".");
 
         while (this.jogador.getPontosVida() > 0) {
             exibirMenuPrincipal();
         }
 
-        System.out.println("GAME OVER... Você foi derrotado.");
+        System.out.println("GAME OVER... Voce foi derrotado.");
+    }
+
+    private Map<Integer, ComandoMenu> criarComandosMenu() {
+        Map<Integer, ComandoMenu> comandos = new LinkedHashMap<>();
+        comandos.put(1, new ComandoExplorar(this));
+        comandos.put(2, new ComandoMover(this));
+        comandos.put(3, new ComandoInventario(this));
+        return comandos;
     }
 
     private void exibirMenuPrincipal() throws Exception {
         System.out.println("\n----------------------------------------");
-        System.out.println("Você está em: " + this.localizacaoAtual);
+        System.out.println("Voce esta em: " + this.localizacaoAtual);
         System.out.println("HP: " + this.jogador.getPontosVida());
-        System.out.println("O que você deseja fazer?");
-        System.out.println("1. Explorar o local");
-        System.out.println("2. Mover-se para outro local");
-        System.out.println("3. Ver Inventário / Usar Item");
-        System.out.print("Escolha: ");
+        System.out.println("O que voce deseja fazer?");
 
-        int escolha;
-        try {
-            escolha = Teclado.getUmInt();
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            escolha = 0; // Opção inválida
+        for (Map.Entry<Integer, ComandoMenu> entrada : this.comandosMenu.entrySet()) {
+            System.out.println(entrada.getKey() + ". " + entrada.getValue().getDescricao());
         }
 
-        switch (escolha) {
-            case 1:
-                explorar();
-                break;
-            case 2:
-                navegar();
-                break;
-            case 3:
-                abrirInventario();
-                break;
-            default:
-                System.out.println("Opção inválida.");
+        System.out.print("Escolha: ");
+
+        int escolha = lerOpcaoMenu();
+        ComandoMenu comando = this.comandosMenu.get(escolha);
+
+        if (comando == null) {
+            System.out.println("Opcao invalida.");
+            return;
+        }
+
+        comando.executar();
+    }
+
+    private int lerOpcaoMenu() {
+        try {
+            return Teclado.getUmInt();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return 0;
         }
     }
 
     private Personagem criarPersonagem() throws Exception {
-        System.out.println("Os invasores estão por toda parte! Quem é você?");
-        System.out.println("1. O Atleta (Curso: Educação Física) - Foco em HP e Defesa.");
+        System.out.println("Os invasores estao por toda parte! Quem e voce?");
+        System.out.println("1. O Atleta (Curso: Educacao Fisica) - Foco em HP e Defesa.");
         System.out.println("2. O Programador (Curso: Eng. de Software) - Foco em Ataque.");
         System.out.println("3. O Arquiteto (Curso: Arquitetura) - Atributos mais balanceados.");
         System.out.print("Escolha sua classe: ");
@@ -82,193 +99,112 @@ public class Jogo {
 
         switch (classe) {
             case 1:
-                System.out.println("Você é 'O Atleta'! Foco em resistir ao combate.");
+                System.out.println("Voce e 'O Atleta'! Foco em resistir ao combate.");
                 p = new Guerreiro(nome);
                 break;
 
             case 2:
-                System.out.println("Você é 'O Programador'! Usando lógica para atacar.");
+                System.out.println("Voce e 'O Programador'! Usando logica para atacar.");
                 p = new Mago(nome);
                 break;
 
             case 3:
-                System.out.println("Você é 'O Arquiteto'! Precisão é sua arma.");
+                System.out.println("Voce e 'O Arquiteto'! Precisao e sua arma.");
                 p = new Arqueiro(nome);
                 break;
 
             default:
-                System.out.println("Opção inválida. Escolhendo 'O Atleta' por padrão.");
+                System.out.println("Opcao invalida. Escolhendo 'O Atleta' por padrao.");
                 p = new Guerreiro(nome);
                 break;
         }
 
-        //Isso é só de exemplo, esse trecho de dar o salgado deveria ser removido e
-        //Um item(s) específico(s) deveria ser dado automaticamente DENTRO da subclasse
-        //de cada classe, ao invés de dentro da classe Jogo
-        Item salgado = new Item("Salgado", "Cura 20 HP", "CURA_HP", 2);
+        Item salgado = new Item("Salgado", "Cura 20 HP", new CuraHP(20), 2);
         p.getInventario().adicionarItem(salgado);
-        System.out.println(nome + " se junta à luta! Você tem 2 Salgados no inventário.");
-
+        System.out.println(nome + " se junta a luta! Voce tem 2 Salgados no inventario.");
 
         return p;
     }
 
-    private void navegar() {
-        System.out.println("De " + this.localizacaoAtual + ", você pode ir para:");
+    public void navegar() {
+        System.out.println("De " + this.localizacaoAtual + ", voce pode ir para:");
 
         try {
             switch (this.localizacaoAtual) {
                 case "Sala de Aula - Bloco C":
-                    System.out.println("1. Pátio Central");
+                    System.out.println("1. Patio Central");
                     System.out.println("2. Cantina");
                     int escolhaC = Teclado.getUmInt();
-                    if (escolhaC == 1) this.localizacaoAtual = "Pátio Central";
-                    else if (escolhaC == 2) this.localizacaoAtual = "Cantina";
+                    if (escolhaC == 1) {
+                        this.localizacaoAtual = "Patio Central";
+                    } else if (escolhaC == 2) {
+                        this.localizacaoAtual = "Cantina";
+                    }
                     break;
-                case "Pátio Central":
+                case "Patio Central":
                     System.out.println("1. Bloco C");
                     System.out.println("2. Biblioteca");
-                    System.out.println("3. Prédio H (Laboratórios)");
+                    System.out.println("3. Predio H (Laboratorios)");
                     int escolhaP = Teclado.getUmInt();
-                    if (escolhaP == 1) this.localizacaoAtual = "Sala de Aula - Bloco C";
-                    else if (escolhaP == 2) this.localizacaoAtual = "Biblioteca";
-                    else if (escolhaP == 3) this.localizacaoAtual = "Prédio H";
+                    if (escolhaP == 1) {
+                        this.localizacaoAtual = "Sala de Aula - Bloco C";
+                    } else if (escolhaP == 2) {
+                        this.localizacaoAtual = "Biblioteca";
+                    } else if (escolhaP == 3) {
+                        this.localizacaoAtual = "Predio H";
+                    }
                     break;
                 case "Cantina":
                     System.out.println("1. Voltar para o Bloco C");
-                    if (Teclado.getUmInt() == 1) this.localizacaoAtual = "Sala de Aula - Bloco C";
+                    if (Teclado.getUmInt() == 1) {
+                        this.localizacaoAtual = "Sala de Aula - Bloco C";
+                    }
                     break;
                 case "Biblioteca":
-                    System.out.println("1. Voltar para o Pátio Central");
-                    if (Teclado.getUmInt() == 1) this.localizacaoAtual = "Pátio Central";
+                    System.out.println("1. Voltar para o Patio Central");
+                    if (Teclado.getUmInt() == 1) {
+                        this.localizacaoAtual = "Patio Central";
+                    }
                     break;
-                case "Prédio H":
-                    System.out.println("1. Voltar para o Pátio Central");
-                    if (Teclado.getUmInt() == 1) this.localizacaoAtual = "Pátio Central";
+                case "Predio H":
+                    System.out.println("1. Voltar para o Patio Central");
+                    if (Teclado.getUmInt() == 1) {
+                        this.localizacaoAtual = "Patio Central";
+                    }
+                    break;
+                default:
+                    System.out.println("Nao ha rotas cadastradas para este local.");
                     break;
             }
         } catch (Exception e) {
-            System.err.println("Opção de navegação inválida.");
+            System.err.println("Opcao de navegacao invalida.");
         }
-
     }
 
-    private void explorar() throws Exception {
-        System.out.println("Você explora " + this.localizacaoAtual + "...");
+    public void explorar() throws Exception {
+        System.out.println("Voce explora " + this.localizacaoAtual + "...");
         int chance = dado.nextInt(100);
 
         if (this.localizacaoAtual.equals("Cantina") && chance < 50) {
-            System.out.println("Você achou um 'Salgado' largado!");
-            this.jogador.getInventario().adicionarItem(new Item("Salgado", "Cura 20 HP", "CURA_HP", 1));
-        } else if (this.localizacaoAtual.equals("Prédio H") && chance < 40) {
-            System.out.println("Você achou 'Componentes Eletrônicos'!");
-            this.jogador.getInventario().adicionarItem(new Item("Componentes", "Para gadgets", "ITEM", 2));
-
-        } else if (this.localizacaoAtual.equals("Pátio Central") && chance < 70) {
+            System.out.println("Voce achou um 'Salgado' largado!");
+            this.jogador.getInventario().adicionarItem(new Item("Salgado", "Cura 20 HP", new CuraHP(20), 1));
+        } else if (this.localizacaoAtual.equals("Predio H") && chance < 40) {
+            System.out.println("Voce achou 'Componentes Eletronicos'!");
+            this.jogador.getInventario().adicionarItem(new Item("Componentes", "Para gadgets", new SemEfeito(), 2));
+        } else if (this.localizacaoAtual.equals("Patio Central") && chance < 70) {
             System.out.println("Uma patrulha te avista!");
-
             Inimigo inimigo = Inimigo.gerarInimigo(this.localizacaoAtual);
-            iniciarBatalha(inimigo);
-
+            this.servicoCombate.iniciarBatalha(this.jogador, inimigo);
         } else if (chance < 30) {
             System.out.println("Um alarme soa! Um inimigo aparece!");
             Inimigo inimigo = Inimigo.gerarInimigo(this.localizacaoAtual);
-            iniciarBatalha(inimigo);
+            this.servicoCombate.iniciarBatalha(this.jogador, inimigo);
         } else {
             System.out.println("Nada de interessante por aqui.");
         }
     }
 
-    private void abrirInventario() throws Exception {
-        System.out.println(this.jogador.getInventario().toString());
-        System.out.print("Digite o nome do item que deseja usar (ou 'voltar'): ");
-
-        String nomeItem = Teclado.getUmString();
-
-        if (nomeItem.equalsIgnoreCase("voltar")) {
-            return;
-        }
-        
-        boolean sucesso = this.jogador.getInventario().usarItem(nomeItem, this.jogador);
-
-        if (sucesso) {
-            System.out.println(this.jogador.getNome() + " usou " + nomeItem + ".");
-        } else {
-            System.out.println("Não foi possível usar " + nomeItem + ".");
-        }
-    }
-
-    private void iniciarBatalha(Inimigo inimigo) throws Exception {
-        System.out.println("!!! BATALHA INICIADA: " + inimigo.getNome() + " apareceu! !!!");
-
-        boolean jogadorFugiu = false;
-
-        while (this.jogador.getPontosVida() > 0 && inimigo.getPontosVida() > 0) {
-            System.out.println("\n[TURNO DE COMBATE]");
-            System.out.printf("Sua Vida (HP): %d\n", this.jogador.getPontosVida());
-            System.out.printf("Vida Inimigo (HP): %d\n", inimigo.getPontosVida());
-
-            System.out.println("O que você deseja fazer?");
-            System.out.println("1. Atacar");
-            System.out.println("2. Usar Item (Inventário)");
-            System.out.println("3. Tentar Fugir");
-            System.out.print("Escolha: ");
-
-            int escolha = 0;
-            try {
-                escolha = Teclado.getUmInt();
-            } catch (Exception e) {
-                System.err.println("Opção inválida.");
-                continue;
-            }
-
-            switch (escolha) {
-                case 1:
-                    this.jogador.batalhar(inimigo);
-                    break;
-                case 2:
-                    abrirInventario();
-                    break;
-                case 3:
-                    System.out.println("Você tenta fugir...");
-                    int chanceFuga = dado.nextInt(10) + 1;
-                    if (chanceFuga > 5) {
-                        System.out.println("Você conseguiu fugir da batalha!");
-                        jogadorFugiu = true;
-                    } else {
-                        System.out.println("A fuga falhou! O inimigo ataca!");
-                        int dadoInimigo = dado.nextInt(6) + 1;
-                        int ataqueTotalInimigo = inimigo.getAtaque() + dadoInimigo;
-                        if (ataqueTotalInimigo > this.jogador.getDefesa()) {
-                            int danoJogador = ataqueTotalInimigo - this.jogador.getDefesa();
-                            if (danoJogador <= 0) danoJogador = 1;
-                            this.jogador.setPontosVida(this.jogador.getPontosVida() - danoJogador);
-                            System.out.println("O inimigo te acertou e causou " + danoJogador + " de dano!");
-                        } else {
-                            System.out.println("O inimigo ataca, mas você se defende!");
-                        }
-                    }
-                    break;
-                default:
-                    System.out.println("Opção inválida. Tente novamente.");
-                    break;
-            }
-
-            if (jogadorFugiu) {
-                break;
-            }
-        }
-
-        if (jogadorFugiu) {
-            System.out.println("Você fugiu com sucesso!");
-        }
-        else if (this.jogador.getPontosVida() > 0) {
-            System.out.println("Você derrotou o " + inimigo.getNome() + "!");
-
-            //Seria bom fazer alguma mecânica aqui com Random, do inimigo droppar algum item aleatório
-
-        } else {
-            System.out.println("Você foi abatido...");
-        }
+    public void abrirInventario() throws Exception {
+        this.servicoInventario.abrirInventario(this.jogador);
     }
 }
